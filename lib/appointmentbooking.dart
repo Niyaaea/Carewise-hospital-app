@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sample1/homepage.dart'; // Import the homepage screen
+import 'package:sample1/homepage.dart';
+import 'package:sample1/speciality.dart'; // 
 
 
 class Appointment extends StatelessWidget {
@@ -37,6 +38,13 @@ class AppointmentBooking extends StatelessWidget {
               Positioned(
                 left: 22,
                 top: 202,
+                child: GestureDetector(
+                  onTap: () { 
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => speciality()),
+                    );
+                  },
                 child: Container(
                   width: 311,
                   height: 76,
@@ -68,6 +76,7 @@ class AppointmentBooking extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
               ),
               Positioned(
                 left: 22,
