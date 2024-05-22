@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sample1/schedule.dart';
+
 
 class speciality extends StatefulWidget {
   speciality({super.key});
@@ -111,6 +113,14 @@ class page extends State<speciality> {
                               Positioned(
                                 left: 18,
                                 top: 2,
+                                child: GestureDetector(
+                                  onTap: () { 
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => doctor()),
+                                  );
+                                  },
+                                
                                 child: Text(
                                   'Shedule',
                                   textAlign: TextAlign.center,
@@ -118,6 +128,7 @@ class page extends State<speciality> {
                                   maxLines: 9999,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                              ),
                               ),
                               Positioned(
                                 left: 0,
@@ -432,19 +443,7 @@ class page extends State<speciality> {
                     height: 131,
                     child: Image.asset('images/image1_1811111.png', width: 300, height: 131,),
                   ),
-                  Positioned(
-                    left: 127,
-                    width: 149,
-                    top: 30,
-                    height: 13,
-                    child: Text(
-                      'Dr. Alexander Bennett, Ph.D.',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(decoration: TextDecoration.none, fontSize: 15, color: const Color(0xff107031), fontFamily: 'LeagueSpartan-Medium', fontWeight: FontWeight.normal),
-                      maxLines: 9999,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                  
                   Positioned(
                     left: 127,
                     width: 149,
@@ -522,7 +521,7 @@ class page extends State<speciality> {
                                 width: 17,
                                 top: 0,
                                 height: 17,
-                                child: Image.asset('images/image_1811124.png', width: 17, height: 17, fit: BoxFit.contain,),
+                                child: Image.asset('assets/schedule.png'),
                               ),
                             ],
                           ),
