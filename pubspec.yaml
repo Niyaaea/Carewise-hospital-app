@@ -1,5 +1,5 @@
-name: sample1
-description: "A new Flutter project."
+name: carewise
+description: "Your Personalized Hospital App"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -28,13 +28,21 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_local_notifications: ^9.1.6
+  html: ^0.15.4
+
+  
+  http: ^0.13.3 
   flutter:
     sdk: flutter
+  
+  
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -73,9 +81,7 @@ flutter:
     - assets/Report Card.png
     - assets/Bill.png
     - assets/Chatbot.png
-    - assets/bg.png
-
-
+    - assets/iphone_sound.mp3
 
 
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sample1/login.dart'; // Import the Login screen
-import 'package:sample1/register.dart'; // Import the Register screen
+import 'login.dart'; // Import the Login screen
+import 'register.dart'; // Import the Register screen
 
 
 void main() {
@@ -73,7 +73,7 @@ class Welcome extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => register()),
+                      MaterialPageRoute(builder: (context) => Register()),
                     );
                   },
                   child: Text('REGISTER'),

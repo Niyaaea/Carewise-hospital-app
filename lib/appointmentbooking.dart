@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sample1/homepage.dart';
-import 'package:sample1/speciality.dart'; // 
+import 'homepage.dart';
+import 'speciality.dart';
 
 
 class Appointment extends StatelessWidget {
-  const Appointment({super.key});
+  final String Patient_ID;
 
-  
+  const Appointment({Key? key, required this.Patient_ID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class Appointment extends StatelessWidget {
       ),
       home: Scaffold(
         body: ListView(children: [
-          AppointmentBooking(),
+          AppointmentBooking(Patient_ID: Patient_ID),
         ]),
       ),
     );
@@ -24,6 +24,10 @@ class Appointment extends StatelessWidget {
 }
 
 class AppointmentBooking extends StatelessWidget {
+  final String Patient_ID;
+
+  const AppointmentBooking({Key? key, required this.Patient_ID}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,294 +39,14 @@ class AppointmentBooking extends StatelessWidget {
           decoration: BoxDecoration(color: Color(0xFFEBEBEB)),
           child: Stack(
             children: [
-              Positioned(
-                left: 22,
-                top: 202,
-                child: GestureDetector(
-                  onTap: () { 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => speciality()),
-                    );
-                  },
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Primary Care Physician (PCP)',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              ),
-              Positioned(
-                left: 22,
-                top: 601,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'ENT Specialist',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 22,
-                top: 463,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dermatologist',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 22,
-                top: 324,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Cardiologist',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 22,
-                top: 723,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Oncologist',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 22,
-                top: 1122,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dietitian/Nutritionist',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 22,
-                top: 984,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Speech-Language Pathologist',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 22,
-                top: 845,
-                child: Container(
-                  width: 311,
-                  height: 76,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFDFFFE),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Physical Therapist (PT)',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                          height: 0.09,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              buildSpecialityRow(context, 0, 'Primary Care Physician (PCP)', 202),
+              buildSpecialityRow(context, 1, 'Cardiologist', 324),
+              buildSpecialityRow(context, 2, 'Dermatologist', 463),
+              buildSpecialityRow(context, 3, 'ENT Specialist', 601),
+              buildSpecialityRow(context, 4, 'Oncologist', 723),
+              buildSpecialityRow(context, 5, 'Physical Therapist (PT)', 845),
+              buildSpecialityRow(context, 6, 'Speech-Language Pathologist', 984),
+              buildSpecialityRow(context, 7, 'Dietitian/Nutritionist', 1122),
               Positioned(
                 left: -2,
                 top: -56,
@@ -381,28 +105,82 @@ class AppointmentBooking extends StatelessWidget {
                 left: 0,
                 top: 86,
                 child: GestureDetector(
-                  onTap: () { 
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => homepage()),
+                      MaterialPageRoute(builder: (context) => homepage(Patient_ID: Patient_ID, patient_ID: '',)),
                     );
                   },
-                child: Container(
-                  width: 42,
-                  height: 26,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/Sort Left.png'),
-
-                      fit: BoxFit.contain,
+                  child: Container(
+                    width: 42,
+                    height: 26,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/Sort Left.png'),
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
-              ),
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Positioned buildSpecialityRow(BuildContext context, int index, String Specialization, double topPosition) {
+    return Positioned(
+      left: 22,
+      top: topPosition,
+      
+      child: GestureDetector(
+        
+        onTap: () 
+        {
+          Navigator.push(
+            
+            context,
+            
+            MaterialPageRoute(
+              builder: (context) => Speciality( Specialization: Specialization, Patient_ID: Patient_ID),
+              
+            ),
+          );
+        },
+        child: Container(
+          width: 311,
+          height: 76,
+          padding: const EdgeInsets.all(16),
+          decoration: ShapeDecoration(
+            color: Color(0xFFFDFFFE),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 0.50, color: Color(0xFFDDDEDF)),
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                Specialization,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w600,
+                  height: 0.09,
+                  letterSpacing: -0.32,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

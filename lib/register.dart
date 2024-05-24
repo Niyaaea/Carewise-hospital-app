@@ -1,454 +1,209 @@
 import 'package:flutter/material.dart';
-import 'package:sample1/login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'login.dart';
 
-class register extends StatelessWidget {
-  
+class Register extends StatelessWidget {
+  final TextEditingController FullNameController = TextEditingController();
+  final TextEditingController PatientIdController = TextEditingController();
+  final TextEditingController AgeController = TextEditingController();
+  final TextEditingController EmailController = TextEditingController();
+  final TextEditingController PhoneController = TextEditingController();
+  final TextEditingController PasswordController = TextEditingController();
+  final TextEditingController ConfirmPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
-      ),
-      home: Scaffold(
-        body: ListView(children: [
-          SignUp(),
-        ]),
-      ),
-    );
-  }
-}
-
-class SignUp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 360,
-          height: 1160,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Stack(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF18C4D4), Color(0xFF0072CE)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Positioned(
-                left: 108,
-                top: 215,
-                child: SizedBox(
-                  width: 190,
-                  height: 55,
+              SizedBox(height: 40),
+              Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              _buildTextField("Full Name", Icons.person, FullNameController),
+              SizedBox(height: 10),
+              _buildTextField("Patient ID", Icons.confirmation_num,
+                  PatientIdController),
+              SizedBox(height: 10),
+              _buildTextField("Age", Icons.calendar_today, AgeController),
+              SizedBox(height: 10),
+              _buildTextField("Email", Icons.email, EmailController),
+              SizedBox(height: 10),
+              _buildTextField("Phone", Icons.phone, PhoneController),
+              SizedBox(height: 10),
+              _buildTextField(
+                  "Password", Icons.lock, PasswordController, true),
+              SizedBox(height: 10),
+              _buildTextField("Confirm Password", Icons.lock_outline,
+                  ConfirmPasswordController, true),
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: () => register(context),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
                   child: Text(
-                    'register\n',
+                    'REGISTER',
                     style: TextStyle(
-                      color: Color(0xFF1E1E1E),
-                      fontSize: 43,
-                      fontFamily: 'Commissioner',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
+                      color: Color(0xFF18C4D4),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              Positioned(
-                left: 26,
-                top: 1016,
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigate to the login page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()), // Using the imported LoginPage widget
-                    );
-                  },
-                  child: Container(
-                    width: 308,
-                    height: 42,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF19698D),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Already have an account? ',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      );
+                    },
+                    child: Text(
+                      'Sign in',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        'REGISTER',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w900,
-                          height: 0,
-                        ),
-                      ),
-                    ),
                   ),
-                ),
-              ),
-              Positioned(
-                left: 26,
-                top: 1089,
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigate to the login page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()), // Using the imported LoginPage widget
-                    );
-                  },
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: ' Already have an account? ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Log in\n',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              
-              Positioned(
-                left: 38,
-                top: 802,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 38,
-                top: 904,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 38,
-                top: 598,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 132,
-                top: 512,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Age',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 25,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 132,
-                top: 512,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Age',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 25,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 132,
-                top: 512,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Age',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 25,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 38,
-                top: 700,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 38,
-                top: 292,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 38,
-                top: 496,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 136,
-                top: 615,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'E-mail ID',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 112,
-                top: 818,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'New Password',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 91,
-                top: 922,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Confirm Password',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 129,
-                top: 716,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Phone No.',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 97,
-                top: 35.44,
-                child: Container(
-                  width: 167,
-                  height: 156.60,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 11.67,
-                        top: 64.56,
-                        child: Container(
-                          width: 114.28,
-                          height: 68.69,
-                          child: Stack(),
-                        ),
-                      ),
-                      Positioned(
-                        left: 11.68,
-                        top: 0,
-                        child: Container(
-                          width: 41.36,
-                          height: 44.11,
-                          child: Stack(),
-                        ),
-                      ),
-                      Positioned(
-                        left: 62.20,
-                        top: 0.02,
-                        child: Container(
-                          width: 57.67,
-                          height: 130.10,
-                          child: Stack(),
-                        ),
-                      ),
-                      Positioned(
-                        left: 111.84,
-                        top: 50.83,
-                        child: Container(
-                          width: 40,
-                          height: 79.37,
-                          child: Stack(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 125,
-                top: 309,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Full name',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 39,
-                top: 394,
-                child: Container(
-                  width: 285,
-                  height: 62,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 126,
-                top: 411,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Patient ID',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 158,
-                top: 513,
-                child: Opacity(
-                  opacity: 0.88,
-                  child: Text(
-                    'Age',
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(0.47999998927116394),
-                      fontSize: 22,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
+                ],
               ),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
-}                  
+
+  Widget _buildTextField(String labelText, IconData icon,
+      TextEditingController controller, [bool isObscureText = false]) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: TextField(
+        controller: controller,
+        obscureText: isObscureText,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          prefixIcon: Icon(icon, color: Colors.white),
+          labelText: labelText,
+          labelStyle: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Future<void> register(BuildContext context) async {
+    String FullName = FullNameController.text;
+    String Patient_ID = PatientIdController.text;
+    String Age = AgeController.text;
+    String Email = EmailController.text;
+    String Phone = PhoneController.text;
+    String Password = PasswordController.text;
+    String ConfirmPassword = ConfirmPasswordController.text;
+
+    if (Password != ConfirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Passwords do not match')),
+      );
+      return;
+    }
+
+    if (Password.length < 5) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Password must be at least 5 characters long')),
+      );
+      return;
+    }
+
+    // Optional: Add more input validation for other fields
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1:5000/register'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'Full_name': FullName,
+          'Patient_ID': Patient_ID,
+          'Age': Age,
+          'Email': Email,
+          'Phone': Phone,
+          'Password': Password,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
+      } else if (response.statusCode == 400) {
+        var jsonResponse = jsonDecode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(jsonResponse['message'])),
+        );
+      } else if (response.statusCode == 415) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Invalid email format')),
+        );
+      } else if (response.statusCode == 409) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User with this email already exists')),
+        );
+      } else if (response.statusCode == 415) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User with this patient ID already exists')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to register')),
+        );
+      }
+    } catch (e) {
+      print('Error registering user: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to register. Please try again later')),
+      );
+    }
+  }
+}

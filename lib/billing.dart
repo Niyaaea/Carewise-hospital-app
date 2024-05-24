@@ -1,151 +1,153 @@
 import 'package:flutter/material.dart';
-import 'package:sample1/homepage.dart'; // Import the homepage screen
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'homepage.dart';
 
 class Billing extends StatefulWidget {
-  Billing({super.key});
+  final String Patient_ID; // Accept patient_ID as a required parameter
+
+  Billing({required this.Patient_ID, Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CodiaPage();
+  State<StatefulWidget> createState() => _BillingPage();
 }
 
-class _CodiaPage extends State<Billing> {
+class _BillingPage extends State<Billing> {
+  List<Map<String, dynamic>> bills = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBills();
+  }
+
+  Future<void> fetchBills() async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1:5000/generate_bill'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'Patient_ID': widget.Patient_ID,
+        }),
+      );
+      print('Response status code: ${response.statusCode}'); 
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          final billData = json.decode(response.body);
+          bills = [
+            {
+              'Medicine_name': billData['Medicine_name'],
+              'Quantity': billData['Quantity'],
+              'Total_cost': billData['Total_cost'],
+            }
+          ];
+          isLoading = false;
+        });
+      } else {
+        // Handle errors
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to fetch bills')),
+        );
+      }
+    } catch (e) {
+      // Handle network errors
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to fetch bills. Please try again later')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Container(
-        width: 360,
-        height: 800,
-        decoration: BoxDecoration(
-          color: const Color(0xffffffff),
+    return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => homepage(Patient_ID: widget.Patient_ID, patient_ID: '',)),
+            );
+          },
+          child: Icon(Icons.arrow_back),
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 24,
-              top: 87,
-              child: Text(
-                'My Bills',
-                textAlign: TextAlign.left,
-                style: TextStyle(decoration: TextDecoration.none, fontSize: 30, color: const Color(0xff000000), fontFamily: 'RobotoRoman-SemiBold', fontWeight: FontWeight.normal),
-                maxLines: 9999,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Positioned(
-              left: 0,
-              width: 360,
-              top: 185,
-              height: 76,
-              child: Container(
-                width: 360,
-                height: 76,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd9d9d9),
-                  boxShadow: const [BoxShadow(color: const Color(0x3f000000), offset: Offset(0, 4), blurRadius: 4),],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              width: 360,
-              top: 429,
-              height: 76,
-              child: Container(
-                width: 360,
-                height: 76,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd9d9d9),
-                  boxShadow: const [BoxShadow(color: const Color(0x3f000000), offset: Offset(0, 4), blurRadius: 4),],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              width: 360,
-              top: 307,
-              height: 76,
-              child: Container(
-                width: 360,
-                height: 76,
-                decoration: BoxDecoration(
-                  color: const Color(0xffd9d9d9),
-                  boxShadow: const [BoxShadow(color: const Color(0x3f000000), offset: Offset(0, 4), blurRadius: 4),],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 35,
-              top: 208,
-              child: Text(
-                'Rs. 800.0',
-                textAlign: TextAlign.left,
-                style: TextStyle(decoration: TextDecoration.none, fontSize: 22, color: const Color(0xff000000), fontFamily: 'RobotoRoman-Regular', fontWeight: FontWeight.normal),
-                maxLines: 9999,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Positioned(
-              left: 36,
-              top: 332,
-              child: Text(
-                'Rs. 900.0',
-                textAlign: TextAlign.left,
-                style: TextStyle(decoration: TextDecoration.none, fontSize: 22, color: const Color(0xff000000), fontFamily: 'RobotoRoman-Regular', fontWeight: FontWeight.normal),
-                maxLines: 9999,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Positioned(
-              left: 36,
-              top: 454,
-              child: Text(
-                'Rs. 600.0',
-                textAlign: TextAlign.left,
-                style: TextStyle(decoration: TextDecoration.none, fontSize: 22, color: const Color(0xff000000), fontFamily: 'RobotoRoman-Regular', fontWeight: FontWeight.normal),
-                maxLines: 9999,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Positioned(
-              left: 311,
-              width: 28,
-              top: 209,
-              height: 27,
-              child: Image.asset('assets/Forward.png'),
-            ),
-            Positioned(
-              left: 311,
-              width: 28,
-              top: 461,
-              height: 27,
-              child: Image.asset('assets/Forward.png'),
-            ),
-            Positioned(
-              left: 311,
-              width: 28,
-              top: 331,
-              height: 27,
-              child: Image.asset('assets/Forward.png'),
-            ),
-            Positioned(
-              left: 12,
-              top: 29,
-              child: GestureDetector(
-                  onTap: () { 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => homepage()),
-                    );
-                  },
-              
-              child: Image.asset('assets/Left black.png'),
-              ),
-            ),
-          ],
-        ),
+        title: Text('My Bills'),
+        backgroundColor: Color.fromARGB(255, 34, 90, 109),
       ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: bills.length,
+              itemBuilder: (context, index) {
+                final bill = bills[index];
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffd9d9d9),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: const Color(0x3f000000),
+                        offset: Offset(0, 4),
+                        blurRadius: 4,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Medicine: ${bill['Medicine_name']}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: const Color(0xff000000),
+                          fontFamily: 'RobotoRoman-Regular',
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Quantity: ${bill['Quantity']}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: const Color(0xff000000),
+                          fontFamily: 'RobotoRoman-Regular',
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Total Cost: ${bill['Total_cost']}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: const Color(0xff000000),
+                          fontFamily: 'RobotoRoman-Regular',
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Add payment logic here
+                          print('Payment button pressed');
+                        },
+                        child: Text('Pay Now'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
     );
   }
 }

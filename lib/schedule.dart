@@ -1,220 +1,250 @@
+import 'dart:convert';
+import 'dart:html' as html;
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:sample1/slot.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'homepage.dart';
 
+class Schedule extends StatefulWidget {
+  final Map<String, dynamic> doctor;
+  final String Patient_ID;
 
-
-class doctor extends StatelessWidget {
-  const doctor({super.key});
+  Schedule({required this.doctor, required this.Patient_ID});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
-      ),
-      home: Scaffold(
-        body: ListView(children: [
-          Doctor(),
-        ]),
-      ),
-    );
-  }
+  _ScheduleState createState() => _ScheduleState();
 }
 
-class Doctor extends StatelessWidget {
+class _ScheduleState extends State<Schedule> {
+  final _formKey = GlobalKey<FormState>();
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  final List<String> startDateOptions = [
+    '1 Day',
+    '2 Days',
+    '3 Days',
+    'A Week Ago',
+    'Two Weeks Ago',
+    'One Month Before'
+  ];
+
+  String? selectedStartDate;
+  String? Name;
+  int? Age;
+  String? description;
+
+  @override
+  void initState() {
+    super.initState();
+    final AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 360,
-          height: 1334,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Color(0xFFEBEBEB)),
-          child: Stack(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Book Appointment'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
             children: [
-              Positioned(
-                left: 30,
-                top: 83,
-                child: Container(
-                  width: 300,
-                  height: 254,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFE5B0A7),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(17),
-                    ),
-                  ),
-                ),
+              Text(
+                'Doctor: ${widget.doctor['Name']}',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Positioned(
-                left: 110,
-                top: 102,
-                child: Container(
-                  width: 139.25,
-                  height: 140,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 139.25,
-                          height: 140,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFD9D9D9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(74.53),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: -56.48,
-                        top: -58.30,
-                        child: Container(
-                          width: 251.51,
-                          height: 251.34,
-                          decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage("https://via.placeholder.com/252x251"),
-                              fit: BoxFit.fill,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              SizedBox(height: 10),
+              Text(
+                'Doctor ID: ${widget.doctor['Doctor_ID']}',
+                style: TextStyle(fontSize: 16),
               ),
-              Positioned(
-                left: 51,
-                top: 263,
-                child: Container(
-                  width: 257,
-                  height: 39,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 257,
-                          height: 39,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 56,
-                        top: 7,
-                        child: SizedBox(
-                          width: 145,
-                          height: 15,
-                          child: Text(
-                            'Dr. Olivia Turner',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFFAE2525),
-                              fontSize: 14,
-                              fontFamily: 'League Spartan',
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 54,
-                        top: 21,
-                        child: SizedBox(
-                          width: 148,
-                          child: Text(
-                            'Physician',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontFamily: 'League Spartan',
-                              fontWeight: FontWeight.w300,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              SizedBox(height: 10),
+              Text(
+                'Specialization: ${widget.doctor['Specialization']}',
+                style: TextStyle(fontSize: 16),
               ),
-              Positioned(
-                left: 35,
-                top: 525,
-                child: SizedBox(
-                  width: 288,
-                  height: 349,
-                  child: Text(
-                    'Lorem ipsum dolor sit amet. Et ipsam enim est aliquam rerum in quis atque. Qui corrupti saepe et aliquid omnis At obcaecati voluptatem quo nostrum mollitia hic pariatur necessitatibus. Ut suscipit ullam sed repellendus autem vel deserunt quae aut blanditiis repudiandae id eveniet numquam ex suscipit nostrum.\nSed harum consequatur qui labore suscipit quo quasi repudiandae est laborum labore vel deserunt officia. Qui asperiores soluta rem autem corporis ut consequatur perspiciatis. Et ipsum earum aut amet sint sit voluptatem placeat aut consequatur aliquam non quasi officiis quo molestiae dolores ut beatae sint. Qui voluptas rerum est minima sint est odit harum et ipsa distinctio.\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w600,
-                      height: 0,
-                    ),
-                  ),
-                ),
+              SizedBox(height: 10),
+              Text(
+                'Rating: ${widget.doctor['Rating']?.toString() ?? 'No rating'}',
+                style: TextStyle(fontSize: 16),
               ),
-              Positioned(
-                left: 38,
-                top: 467,
-                child: Text(
-                  'Doctor Bio',
-                  style: TextStyle(
-                    color: Color(0xFFC63D3D),
-                    fontSize: 24,
-                    fontFamily: 'League Spartan',
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
-                ),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Name'),
+                onChanged: (value) {
+                  Name = value;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
               ),
-              Positioned(
-                  left: 23,
-                  top: 918,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => slot()),
-                      );
-                    },
-                    child: Text(
-                      '     Book Slot     ',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 194, 15, 9), // Define primary color here
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                  ),
-                ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Age'),
+                onChanged: (value) {
+                  Age = int.tryParse(value);
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your age';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Patient ID'),
+                initialValue: widget.Patient_ID,
+                enabled: false,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your Patient ID';
+                  }
+                  return null;
+                },
+              ),
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Start Date'),
+                value: selectedStartDate,
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedStartDate = newValue;
+                  });
+                },
+                items: startDateOptions.map((String option) {
+                  return DropdownMenuItem<String>(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a start date';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Description'),
+                onChanged: (value) {
+                  description = value;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    await _bookAppointment();
+                  }
+                },
+                child: Text('Book Appointment'),
+              ),
             ],
           ),
         ),
-      ],
+      ),
     );
+  }
+
+  Future<void> _bookAppointment() async {
+    final random = Random();
+    final Appointment_ID = random.nextInt(9000) + 1000; // Random 4-digit number
+    final currentDate = DateTime.now().toIso8601String();
+
+    final tokenResponse = await http.get(Uri.parse('http://127.0.0.1:5000/min_token'));
+    int Token = json.decode(tokenResponse.body)['min_token'];
+
+    final appointmentData = {
+      'Name': Name,
+      'Age': Age,
+      'description': description,
+      'startDate': selectedStartDate,
+      'date': currentDate,
+      'Appointment_ID': Appointment_ID,
+      'Patient_ID': widget.Patient_ID,
+      'Doctor_ID': widget.doctor['Doctor_ID'],  // Add Doctor_ID here
+      'Token': Token,
+    };
+
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:5000/appointments'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(appointmentData),
+    );
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Appointment booked successfully')),
+      );
+
+      // Send local push notification
+      await _showNotification();
+
+      // Send web browser notification
+      _sendWebBrowserNotification();
+
+      // Navigate to the homepage with patient_ID
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => homepage(Patient_ID: widget.Patient_ID, patient_ID: '', )),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to book appointment')),
+      );
+    }
+  }
+
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'appointment_channel_id',
+      'CareWise: Personalized Hospital App',
+      importance: Importance.max,
+      priority: Priority.high,
+      sound: RawResourceAndroidNotificationSound('iphone_sound.mp3'), // Add sound here
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Appointment Booked',
+      'Your appointment has been booked successfully.',
+      platformChannelSpecifics,
+    );
+  }
+
+  void _sendWebBrowserNotification() {
+    final notificationTitle = 'Appointment Booked';
+    final notificationBody = 'Your appointment has been booked successfully.';
+
+    if (html.Notification.supported) {
+      html.Notification.requestPermission().then((permission) {
+        if (permission == 'granted') {
+          html.Notification(notificationTitle, body: notificationBody);
+        }
+      });
+    } else {
+      print('Web browser notifications not supported');
+    }
   }
 }
